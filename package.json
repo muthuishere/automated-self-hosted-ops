@@ -1,0 +1,87 @@
+{
+  "name": "independence-ops",
+  "version": "0.1.0",
+  "description": "Manage your Kubernetes Deployment with Node.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "coverage": "nyc npm run test",
+    "test": "mocha --experimental-loader=@istanbuljs/esm-loader-hook 'src/**/*.test.js' --recursive --timeout 60000 ",
+    "publish-package": "npm publish"
+  },
+  "bin": {
+    "@independence-ops/create-domain": "bin/create_domain.js"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "all": true,
+    "include": [
+      "src/**/!(*.test.*).[tj]s?(x)"
+    ],
+    "reporter": [
+      "cobertura",
+      "html",
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "report-dir": "coverage"
+  },
+  "release-it": {
+    "hooks": {
+      "before:init": "npm test",
+      "after:git:release": "echo After git push, before github release",
+      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    },
+    "git": {
+      "commitMessage": "muthuishere: release v${version}"
+    },
+    "npm": {
+      "publish": false
+    }
+  },
+  "keywords": [
+    "kubectl",
+    "kubernetes",
+    "kubernetes-client"
+  ],
+  "author": "Muthukumaran Navaneethakrishnan(https://github.com/muthuishere/)",
+  "license": "MIT",
+  "homepage": "https://github.com/muthuishere/independence-ops",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:muthuishere/independence-ops.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muthuishere/independence-ops/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@istanbuljs/esm-loader-hook": "^0.2.0",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "prettier": "^3.1.0",
+    "release-it": "*",
+    "sinon": "^17.0.1"
+  },
+  "dependencies": {
+    "@kubernetes/client-node": "^0.20.0",
+    "axios": "^1.6.1",
+    "chalk": "^5.3.0",
+    "command-exists": "^1.2.9",
+    "declarative-optional": "^2.1.10",
+    "dot-env": "^0.0.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "inquirer": "^9.2.12",
+    "js-yaml": "^4.1.0",
+    "shelljs": "^0.8.5",
+    "uuid": "^9.0.1",
+    "which": "^4.0.0",
+    "winston": "^3.11.0",
+    "yargs": "^17.7.2"
+  }
+}

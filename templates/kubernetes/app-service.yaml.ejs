@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: <%= appName %>-service
+spec:
+  type: NodePort
+  selector:
+    app: <%= appName %>
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: <%= containerPort %>
+      nodePort: <%= nodePort %>  # Manually specified NodePort

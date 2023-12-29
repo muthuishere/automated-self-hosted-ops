@@ -1,0 +1,39 @@
+- name: Install and start Deployment
+  hosts: <%= hostname %>
+  gather_facts: 'yes'
+  vars: {}
+  tasks:
+    - name: Remove remote directory if exists
+      ansible.builtin.file:
+        path: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+        state: absent
+    - name: Create remote directory
+      ansible.builtin.file:
+        path: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+        state: directory
+        mode: '0755'
+    - name: Upload Folder to remote
+      ansible.builtin.copy:
+        src: >-
+          <%= k8sfolderWithSlash %>
+        dest: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+        mode: '0755'
+    - name: Find all .sh files in the uploaded directory
+      become: true
+      ansible.builtin.find:
+        paths: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+        patterns: '*.sh'
+      register: sh_files
+    - name: Make all .sh files executable
+      become: true
+      ansible.builtin.file:
+        path: '{{ item.path }}'
+        mode: u+x
+      loop: '{{ sh_files.files }}'
+    - name: Execute the Install script
+      become: yes
+      ansible.builtin.shell: ./install.sh
+      args:
+        chdir: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+      environment:
+        KUBECONFIG: <%= kubeconfig %>

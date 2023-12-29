@@ -1,0 +1,23 @@
+- an ansible file Java Deployer
+- path to Docker file
+- path to .env file
+- Build Ansible Files
+  - install (installer.yml)
+    - install redirect port
+    - create secrets deployment
+      - and run it so that it is available to the other deployments
+    - create app deployment, service and upload files for
+      - start-deployer.sh
+      - stop-deployer.sh
+      - remove-deployer.sh
+    - nginx create redirect port
+  - start     (start.yml)
+    - start app deployment
+  - stop (stop.yml)
+    - stop app deployment
+  - update (update.yml)
+    - update app deployment
+  - remove (remove.yml)
+    - remove app deployment
+    - remove secrets deployment
+    - remove redirect port nginx

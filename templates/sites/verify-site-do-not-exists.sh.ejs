@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# The site you are searching for
+SEARCH_SITE="<%= siteName %>"
+
+# Run the command and search for the site
+if ! list-all-nginx-sites | grep -q "$SEARCH_SITE"; then
+echo "Site $SEARCH_SITE not found."
+exit 0
+fi
+
+
+echo "Error: Site $SEARCH_SITE found in the list of available sites."
+exit 1

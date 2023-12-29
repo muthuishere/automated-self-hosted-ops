@@ -1,0 +1,7 @@
+{
+  "timeout": 5000000,
+  "recursive": true,
+  "reporter": "spec",
+  "file": ["__tests/mocha.setup.js"],
+  "check-leaks": true
+}

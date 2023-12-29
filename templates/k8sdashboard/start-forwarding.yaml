@@ -1,0 +1,26 @@
+---
+- name: Start kubectl port-forward in background
+  hosts: <%= hostname %>
+  gather_facts: yes
+
+  tasks:
+    - name: Create token for admin-user
+      ansible.builtin.shell: kubectl -n kubernetes-dashboard create token admin-user
+      register: admin_token
+      become: yes
+    - name: Print the token
+      ansible.builtin.debug:
+        var: admin_token.stdout
+      environment:
+        KUBECONFIG: <%= kubeconfig %>
+    - name: Run kubectl port-forward in background
+      shell: |
+        nohup kubectl -n kubernetes-dashboard port-forward services/kubernetes-dashboard <%= remoteport %>:443 > /tmp/k8sport_forward.log 2>&1 &
+        echo $! > /tmp/k8sport_forward.pid
+      async: 10
+      become: yes
+      environment:
+        KUBECONFIG: <%= kubeconfig %>
+      poll: 0
+
+

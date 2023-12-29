@@ -1,0 +1,3 @@
+JDBC_URL=jdbc:mysql://localhost:3306/employee_payroll_service?useSSL=false
+JDBC_USERNAME=root
+JDBC_PASSWORD=1234

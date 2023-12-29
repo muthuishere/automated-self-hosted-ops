@@ -1,0 +1,18 @@
+---
+- name: Stop kubectl port-forward
+  hosts: <%= hostname %>
+  gather_facts: no
+
+  tasks:
+      - name: Read PID from file
+        shell: cat /tmp/k8sport_forward.pid
+        register: port_forward_pid
+
+      - name: Kill port-forward process
+        shell: kill {{ port_forward_pid.stdout }}
+        ignore_errors: yes
+
+      - name: Remove PID file
+        file:
+            path: /tmp/k8sport_forward.pid
+            state: absent

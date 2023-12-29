@@ -1,0 +1,14 @@
+- name: Update Deployment
+  hosts: <%= hostname %>
+  gather_facts: 'yes'
+  vars: {}
+  tasks:
+    - name: Execute the Update Deployment
+      become: true
+      ansible.builtin.shell: ./update-deployment.sh
+      args:
+        chdir: { { ansible_env.HOME } }/kubesites/<%= appName %>
+      environment:
+        KUBECONFIG: <%= kubeconfig %>
+
+

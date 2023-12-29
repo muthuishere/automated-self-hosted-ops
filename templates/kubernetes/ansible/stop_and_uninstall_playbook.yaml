@@ -1,0 +1,16 @@
+- name: Uninstall and stop Deployment
+  hosts: <%= hostname %>
+  gather_facts: 'yes'
+  vars: {}
+  tasks:
+    - name: Execute the UnInstall script
+      become: false
+      ansible.builtin.shell: ./uninstall.sh
+      args:
+        chdir: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+      environment:
+        KUBECONFIG: <%= kubeconfig %>
+    - name: Remove remote directory if exists
+      ansible.builtin.file:
+        path: '{{ ansible_env.HOME }}/kubesites/<%= appName %>'
+        state: absent
